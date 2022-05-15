@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String jwt = getJwtFromRequest(request); //request에서 jwt 토큰을 꺼낸다.
-            if (!StringUtils.hasText(jwt) && provider.validateToken(jwt)) {
+            if (StringUtils.hasText(jwt) && provider.validateToken(jwt)) {
                 String userId = provider.getUserIdFromJWT(jwt); //jwt에서 사용자 id를 꺼낸다.
 
                 UserAuthentication authentication = new UserAuthentication(userId, null, null); //id를 인증한다.
@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication); //세션에서 계속 사용하기 위해 securityContext에 Authentication 등록
             } else {
-                if (StringUtils.isEmpty(jwt)) {
+                if (!StringUtils.hasText(jwt)) {
                     request.setAttribute("unauthorization", "401 인증키 없음.");
                 }
 
@@ -53,7 +53,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if (!StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        log.info("bearerToken: {}", bearerToken);
+        if (bearerToken != null && StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring("Bearer ".length());
         }
         return null;

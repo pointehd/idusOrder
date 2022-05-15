@@ -1,5 +1,7 @@
 package com.idus.test.order.controller.dto;
 
+import com.idus.test.order.domain.user.Gender;
+import com.idus.test.order.domain.user.UserEntity;
 import lombok.*;
 
 public class UserDto {
@@ -13,6 +15,16 @@ public class UserDto {
         String nickname;
         String phone;
         String email;
-        String gender;
+        Gender gender;
+
+        public static UserInfo from(UserEntity userEntity) {
+            return UserInfo.builder()
+                    .userName(userEntity.getUserName())
+                    .nickname(userEntity.getNickname())
+                    .phone(userEntity.getPhone())
+                    .email(userEntity.getPhone())
+                    .gender(userEntity.getGender())
+                    .build();
+        }
     }
 }

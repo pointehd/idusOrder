@@ -15,12 +15,13 @@ import java.util.Optional;
 public class UserService {
     UserRepository userRepository;
 
-    public Optional<UserDto.UserInfo> findByIdPw(String id) {
-        return userRepository.findByUserName(id);
+    public Optional<UserDto.UserInfo> findById(String id) {
+        return userRepository.findByUserName(id)
+                .map(UserDto.UserInfo::from);
     }
 
     // TODO 미구현 상태  구현 필요
     public boolean matchPassword(Token.Request request) {
-        return true;
+        return false;
     }
 }

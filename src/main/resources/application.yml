@@ -14,8 +14,8 @@ spring:
 server:
   port: 8080
 
-
-application:
-  security:
-    secret: donghyun
-    expiration: 6048000000
+app:
+  application:
+    security:
+      secret: donghyun
+      expiration: 6048000000

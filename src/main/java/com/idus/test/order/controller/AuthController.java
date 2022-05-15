@@ -35,7 +35,7 @@ public class AuthController  {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Token.Request request) throws Exception {
 
-        UserDto.UserInfo user = userService.findByIdPw(request.getId())
+        UserDto.UserInfo user = userService.findById(request.getId())
                 .orElseThrow(() -> new IllegalArgumentException("없는 사용자입니다."));
         if(userService.matchPassword(request)){
             throw new IllegalArgumentException("비밀번호를 확인하세요.");
