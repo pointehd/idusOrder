@@ -13,3 +13,9 @@ spring:
       ddl-auto: validate
 server:
   port: 8080
+
+app:
+  application:
+    security:
+      secret: donghyun
+      expiration: 6048000000
