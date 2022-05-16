@@ -1,5 +1,6 @@
 package com.idus.test.order.domain.user;
 
+import com.idus.test.order.controller.dto.UserDto;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -36,5 +37,16 @@ public class UserEntity {
         this.phone = phone;
         this.email = email;
         this.gender = gender;
+    }
+
+    public static UserEntity from(UserDto.SignupReqeust request) {
+        return UserEntity.builder()
+                .userName(request.getUserName())
+                .nickname(request.getNickname())
+                .password(request.getPassword())
+                .phone(request.getPhone())
+                .email(request.getEmail())
+                .gender(request.getGender())
+                .build();
     }
 }
