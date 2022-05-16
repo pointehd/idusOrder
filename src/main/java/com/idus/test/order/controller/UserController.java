@@ -27,6 +27,6 @@ public class UserController {
     public ResponseEntity<UserDto.UserInfo> userDetails() {
         log.debug("login info: {}", SecurityUtil.getCurrentMemberId());
         String userName = (String) SecurityUtil.getCurrentMemberId().getPrincipal();
-        return ResponseEntity.ok(userService.findByUserName(userName).get());
+        return ResponseEntity.ok(userService.getUserInfoByUserName(userName).get());
     }
 }

@@ -17,7 +17,11 @@ public class UserService {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
 
-    public Optional<UserDto.UserInfo> findByUserName(String userName) {
+    public Optional<UserEntity> getOptionalUserByUserName(String name) {
+        return userRepository.findByUserName(name);
+    }
+
+    public Optional<UserDto.UserInfo> getUserInfoByUserName(String userName) {
         return userRepository.findByUserName(userName)
                 .map(UserDto.UserInfo::from);
     }
@@ -25,7 +29,7 @@ public class UserService {
     public boolean matchPassword(Token.Request request) {
         return userRepository.findByUserName(request.getId())
                 .map(UserEntity::getPassword)
-                .map(password-> passwordEncoder.matches(request.getSecret(), password))
+                .map(password -> passwordEncoder.matches(request.getSecret(), password))
                 .orElse(false);
     }
 
@@ -36,12 +40,9 @@ public class UserService {
         return true;
     }
 
-    public void userNameMatchThrowError(String userName) {
-        if(userRepository.findByUserName(userName).isPresent()){
+    private void userNameMatchThrowError(String userName) {
+        if (userRepository.findByUserName(userName).isPresent()) {
             throw new IllegalArgumentException("아이디 중복입니다.");
         }
-
-
-
     }
 }

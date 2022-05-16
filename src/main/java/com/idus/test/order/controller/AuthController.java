@@ -33,7 +33,7 @@ public class AuthController  {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Token.Request request) throws Exception {
 
-        UserDto.UserInfo user = userService.findByUserName(request.getId())
+        UserDto.UserInfo user = userService.getUserInfoByUserName(request.getId())
                 .orElseThrow(() -> new IllegalArgumentException("없는 사용자입니다."));
         if(!userService.matchPassword(request)){
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
