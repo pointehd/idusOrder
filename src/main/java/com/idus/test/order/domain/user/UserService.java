@@ -17,8 +17,8 @@ public class UserService {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
 
-    public Optional<UserDto.UserInfo> findById(String id) {
-        return userRepository.findByUserName(id)
+    public Optional<UserDto.UserInfo> findByUserName(String userName) {
+        return userRepository.findByUserName(userName)
                 .map(UserDto.UserInfo::from);
     }
 

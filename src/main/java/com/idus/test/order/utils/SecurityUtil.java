@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class SecurityUtil {
 
     public static Authentication getCurrentMemberId() {
-        final Authentication authentication =SecurityContextHolder.getContext().getAuthentication();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || authentication.getName() == null){
             throw new RuntimeException("Not found authentication");

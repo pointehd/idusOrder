@@ -26,7 +26,7 @@ public class UserDto {
                     .userName(userEntity.getUserName())
                     .nickname(userEntity.getNickname())
                     .phone(userEntity.getPhone())
-                    .email(userEntity.getPhone())
+                    .email(userEntity.getEmail())
                     .gender(userEntity.getGender())
                     .build();
         }

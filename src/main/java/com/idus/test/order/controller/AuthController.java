@@ -10,14 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -35,7 +31,7 @@ public class AuthController  {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Token.Request request) throws Exception {
 
-        UserDto.UserInfo user = userService.findById(request.getId())
+        UserDto.UserInfo user = userService.findByUserName(request.getId())
                 .orElseThrow(() -> new IllegalArgumentException("없는 사용자입니다."));
         if(!userService.matchPassword(request)){
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
