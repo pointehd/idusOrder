@@ -27,14 +27,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         try {
-            String jwt = getJwtFromRequest(request); //request에서 jwt 토큰을 꺼낸다.
+            String jwt = getJwtFromRequest(request);
             if (StringUtils.hasText(jwt) && provider.validateToken(jwt)) {
-                String userId = provider.getUserIdFromJWT(jwt); //jwt에서 사용자 id를 꺼낸다.
+                String userId = provider.getUserIdFromJWT(jwt);
 
                 UserAuthentication authentication = new UserAuthentication(userId, null, null); //id를 인증한다.
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)); //기본적으로 제공한 details 세팅
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authentication); //세션에서 계속 사용하기 위해 securityContext에 Authentication 등록
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
                 if (!StringUtils.hasText(jwt)) {
                     request.setAttribute("unauthorization", "401 인증키 없음.");
@@ -54,8 +54,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         log.info("bearerToken: {}", bearerToken);
-        if (bearerToken != null && StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring("Bearer ".length());
+        if (bearerToken != null && StringUtils.hasText(bearerToken)) {
+            return bearerToken;
         }
         return null;
     }

@@ -3,6 +3,7 @@ package com.idus.test.order.controller;
 import com.idus.test.order.controller.dto.UserDto;
 import com.idus.test.order.domain.user.UserService;
 import com.idus.test.order.utils.SecurityUtil;
+import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,6 +22,7 @@ public class UserController {
 
     UserService userService;
 
+    @ApiOperation(value = "회원 상세 정보 조회")
     @GetMapping
     public ResponseEntity<UserDto.UserInfo> userDetails() {
         log.debug("login info: {}", SecurityUtil.getCurrentMemberId());

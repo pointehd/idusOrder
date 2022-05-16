@@ -11,6 +11,9 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: validate
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher # swagger-ui 오류 수정
 server:
   port: 8080
 

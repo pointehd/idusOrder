@@ -5,6 +5,7 @@ import com.idus.test.order.config.security.Token;
 import com.idus.test.order.config.security.UserAuthentication;
 import com.idus.test.order.controller.dto.UserDto;
 import com.idus.test.order.domain.user.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -28,6 +29,7 @@ public class AuthController  {
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "로그인", notes = "결과 값으로 나온 토큰을 상단에 붙혀넣기")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Token.Request request) throws Exception {
 

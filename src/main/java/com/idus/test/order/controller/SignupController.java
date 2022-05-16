@@ -2,6 +2,7 @@ package com.idus.test.order.controller;
 
 import com.idus.test.order.controller.dto.UserDto;
 import com.idus.test.order.domain.user.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,6 +24,7 @@ public class SignupController {
 
     UserService userService;
 
+   @ApiOperation(value = "회원가입", notes = "")
     @PostMapping
     public ResponseEntity<Boolean> signup(
             @Valid @RequestBody
