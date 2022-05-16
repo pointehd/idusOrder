@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -28,5 +28,11 @@ public class UserController {
         log.debug("login info: {}", SecurityUtil.getCurrentMemberId());
         String userName = (String) SecurityUtil.getCurrentMemberId().getPrincipal();
         return ResponseEntity.ok(userService.getUserInfoByUserName(userName).get());
+    }
+
+    @GetMapping("/page/{page}")
+    public ResponseEntity<List<UserDto.UserInfo>> pageUserBySearch(
+            @RequestParam String name, @PathVariable int page) {
+        return ResponseEntity.ok(userService.getUserListBy(name));
     }
 }
