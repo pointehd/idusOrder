@@ -1,12 +1,15 @@
 package com.idus.test.order.controller.dto;
 
 import com.idus.test.order.annotation.EnumPattern;
+import com.idus.test.order.domain.order.OrderInfoEntity;
 import com.idus.test.order.domain.user.Gender;
 import com.idus.test.order.domain.user.UserEntity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.*;
+import java.util.List;
+import java.util.Optional;
 
 public class UserDto {
 
@@ -28,6 +31,41 @@ public class UserDto {
                     .phone(userEntity.getPhone())
                     .email(userEntity.getEmail())
                     .gender(userEntity.getGender())
+                    .build();
+        }
+    }
+
+    @NoArgsConstructor
+    @Builder
+    @AllArgsConstructor
+    @Getter
+    public static class UsersOrderPager {
+        List<UserOrder> usersOrder;
+        int viewCount;
+        long currentPage;
+        long maxPage;
+    }
+
+    @NoArgsConstructor
+    @Builder(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor
+    @Getter
+    public static class UserOrder {
+        String userName;
+        String nickname;
+        String phone;
+        String email;
+        Gender gender;
+        OrderDto.OrderResponse lastOrder;
+
+        public static UserOrder of(UserEntity userEntity, Optional<OrderInfoEntity> orderInfoEntity) {
+            return UserOrder.builder()
+                    .userName(userEntity.getUserName())
+                    .nickname(userEntity.getNickname())
+                    .phone(userEntity.getPhone())
+                    .email(userEntity.getEmail())
+                    .gender(userEntity.getGender())
+                    .lastOrder(orderInfoEntity.map(OrderDto.OrderResponse::from).orElse(null))
                     .build();
         }
     }
@@ -56,6 +94,15 @@ public class UserDto {
         String email;
         @EnumPattern(regexp = "MALE|FEMALE")
         Gender gender;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class UserSearchRequest {
+        String search;
+        int page;
+        int viewCount;
     }
 
 }

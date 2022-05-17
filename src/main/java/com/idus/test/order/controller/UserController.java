@@ -11,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
@@ -30,9 +28,16 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserInfoByUserName(userName).get());
     }
 
-    @GetMapping("/page/{page}")
-    public ResponseEntity<List<UserDto.UserInfo>> pageUserBySearch(
-            @RequestParam String name, @PathVariable int page) {
-        return ResponseEntity.ok(userService.getUserListBy(name));
+    @GetMapping("/search")
+    public ResponseEntity<UserDto.UsersOrderPager> pageUserBySearch(
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(name = "view_count", required = false, defaultValue = "10") int viewCount,
+            @RequestParam(required = false) String search) {
+        UserDto.UserSearchRequest request = UserDto.UserSearchRequest.builder()
+                .page(page)
+                .search(search)
+                .viewCount(viewCount)
+                .build();
+        return ResponseEntity.ok(userService.getUserPagerBy(request));
     }
 }

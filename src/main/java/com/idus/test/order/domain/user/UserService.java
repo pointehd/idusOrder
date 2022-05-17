@@ -49,10 +49,7 @@ public class UserService {
     }
 
     // TODO
-    public List<UserDto.UserInfo> getUserListBy(String search) {
-        return userRepository.getUserList()
-                .stream()
-                .map(UserDto.UserInfo::from)
-                .collect(Collectors.toList());
+    public UserDto.UsersOrderPager getUserPagerBy(UserDto.UserSearchRequest searchRequest) {
+        return userRepository.getUserList(searchRequest);
     }
 }
