@@ -33,6 +33,12 @@ create table order_info (
 	create_datetime timestamp,
 	FOREIGN KEY (user_seq) REFERENCES user(seq)
 )
+
+create table expired_token (
+	seq bigint AUTO_INCREMENT primary key,
+	token varchar(255) not null unique ,
+	create_datetime timestamp
+)
 ```
 
 ## swagger-ui url 
@@ -40,8 +46,11 @@ http://localhost:8080/swagger-ui.html
 
 ## TODO Check list
 - ~회원가입~
-- ~회원 로그인~   
-- 회원 로그아웃
+- ~회원 로그인~
+> jwt를 이용하여 구현하였으나 refresh Token 으로 보완이 필요해보입니다.
+- ~회원 로그아웃~
+> jwt를 mysql에 저장하여 만료 처리하였지만 추후 radis를 이용하여 만료시간과 함께 저장 필요.   
+> 현재 방식대로라면 스케줄링을 이용하여 만료 토큰이 너무 많아지지 않게 할수 있을 것같습니다.
 - ~단일 회원상세 정보 조회~
 - ~단일 회원 주문 목록 조회~
 - ~여러 회원 목록 조회~

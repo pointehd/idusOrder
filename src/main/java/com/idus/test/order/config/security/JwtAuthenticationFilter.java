@@ -1,5 +1,6 @@
 package com.idus.test.order.config.security;
 
+import com.idus.test.order.domain.token.TokenService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,6 +23,7 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     JwtTokenProvider provider;
+    TokenService tokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -52,10 +54,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        log.info("bearerToken: {}", bearerToken);
-        if (bearerToken != null && StringUtils.hasText(bearerToken)) {
-            return bearerToken;
+        String token = request.getHeader("Authorization");
+        if (token != null && StringUtils.hasText(token) && !tokenService.isExpiredtoken(token)) {
+            return token;
         }
         return null;
     }
